@@ -7,6 +7,7 @@
   let convertedAmount='';
   let rates = {};
   let error = null;
+    const currencies = ["USD", "EUR", "RUB", "GBP"];
 
   async function fetchRates(baseCurrency: string) {
     try {
@@ -74,19 +75,21 @@
       <div class="input-group">
         <input type="number" class="input" bind:value={amount} on:input={convertAmount} />
         <select class="select" bind:value={baseCurrency} on:change={convertAmount}>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="RUB">RUB</option>
-          <option value="GBP">GBP</option>
+          {#each currencies as currency}
+            {#if currency !== targetCurrency}
+              <option value={currency}>{currency}</option>
+            {/if}
+          {/each}
         </select>
       </div>
       <div class="input-group">
         <input type="number" class="input" bind:value={convertedAmount} on:input={convertBack} />
         <select class="select" bind:value={targetCurrency} on:change={convertAmount}>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="RUB">RUB</option>
-          <option value="GBP">GBP</option>
+          {#each currencies as currency}
+            {#if currency !== baseCurrency}
+              <option value={currency}>{currency}</option>
+            {/if}
+          {/each}
         </select>
       </div>
       <p class="result">Вы конвертируете <b>{amount}</b> {baseCurrency} в <b>{convertedAmount}</b> {targetCurrency}.</p>
